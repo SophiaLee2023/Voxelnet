@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.misc import imread
+from imageio import imread
 
 CAM = 2
 
@@ -74,23 +74,21 @@ def align_img_and_pc(img_dir, pc_dir, calib_dir):
             color = img[r, c, :]
             point = [ pts3d[0,i], pts3d[1,i], pts3d[2,i], reflectances[i], color[0], color[1], color[2], pts2d_normed[0,i], pts2d_normed[1,i]  ]
             points.append(point)
-
+    
     points = np.array(points)
     return points
 
 # update the following directories
-IMG_ROOT = '/media/hdc/KITTI/image/training/image_2/'
-PC_ROOT = '/media/hdc/KITTI/point_cloud/raw_bin_files/training/velodyne/'
-CALIB_ROOT = '/media/hdc/KITTI/calib/data_object_calib/training/calib/'
-
-
+IMG_ROOT = 'crop_data/training/image_2/'
+PC_ROOT = 'crop_data/training/velodyne/'
+CALIB_ROOT = 'crop_data/training/calib/'
 
 for frame in range(0, 7481):
-    img_dir = IMG_ROOT + '%06d.png' % frame
-    pc_dir = PC_ROOT + '%06d.bin' % frame
-    calib_dir = CALIB_ROOT + '%06d.txt' % frame
+    img_dir = IMG_ROOT + str('%06d.png' % frame)
+    pc_dir = PC_ROOT + str('%06d.bin' % frame)
+    calib_dir = CALIB_ROOT + str('%06d.txt' % frame)
 
     points = align_img_and_pc(img_dir, pc_dir, calib_dir)
-    
-    output_name = PC_ROOT + frame + '.bin'
-    points[:,:4].astype('float32').tofile(output_name)
+    points[:,:4].astype('float32').tofile(pc_dir)
+ 
+    print(f"Finished cropping frame #{frame}")
