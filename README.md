@@ -1,4 +1,4 @@
-# Voxelnet-Dectector: TJ '23 W-CAB
+# Voxelnet-Dectector
 
 Cloned from [David Stephane](https://github.com/steph1793), ([project](https://github.com/steph1793/Voxelnet)) who implemented [VoxelNet: End-to-End Learning for Point Cloud Based 3D Object Detection](https://arxiv.org/abs/1711.06396) in tensorflow 2.0.0. This project is based on the work of [Qiangui Huang](https://github.com/qianguih), ([project](https://github.com/qianguih/voxelnet)) and [Xiaojian Ma](https://github.com/jeasinema).
 
@@ -12,7 +12,7 @@ Cloned from [David Stephane](https://github.com/steph1793), ([project](https://g
 $ pip install -r requirements.txt
 ```
 
-2. Install [MSYS2](https://www.msys2.org/), following the site's tutorial up to step 5. After, with the MSYS2 terminal open, install the GCC compiler
+2. Install [MSYS2](https://www.msys2.org/) and follow the site's tutorial up to step 5. After, with the MSYS2 terminal open, install the GCC compiler
 ```bash
 $ pacman -Syuu
 $ pacman -S mingw-w64-ucrt-x86_64-gcc
