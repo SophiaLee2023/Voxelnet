@@ -41,5 +41,5 @@ Voxelnet-Detector
 
 3. Run the training command in terminal
 ```bash
-$ python train.py --strategy="all" --n_epochs=160 --batch_size=2 --learning_rate=0.001 --small_addon_for_BCE=1e-6 --max_gradient_norm=5 --alpha_bce=1.5 --beta_bce=1 --huber_delta=3 --dump_vis="no" --data_root_dir="../DATA_DIR/T_DATA" --model_dir="model" --model_name="model6" --dump_test_interval=40 --summary_interval=10 --summary_val_interval=10 --summary_flush_interval=20 --ckpt_max_keep=10
+$ python train.py --strategy="all" --n_epochs=160 --batch_size=2 --learning_rate=0.001 --small_addon_for_BCE=1e-6 --max_gradient_norm=5 --alpha_bce=1.5 --beta_bce=1 --huber_delta=3 --dump_vis="no" --data_root_dir="crop_data" --model_dir="model" --model_name="model6" --dump_test_interval=40 --summary_interval=10 --summary_val_interval=10 --summary_flush_interval=20 --ckpt_max_keep=10
 ```

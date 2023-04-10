@@ -96,9 +96,9 @@ class ConvMiddleLayer(tf.keras.layers.Layer):
     super(ConvMiddleLayer, self).__init__()
     self.out_shape = out_shape
 
-    self.conv1 = tf.keras.layers.Conv3D(64, (3,3,3), (2,1,1), data_format="channels_first", padding="VALID")
-    self.conv2 = tf.keras.layers.Conv3D(64, (3,3,3), (1,1,1), data_format="channels_first", padding="VALID")
-    self.conv3 = tf.keras.layers.Conv3D(64, (3,3,3), (2,1,1), data_format="channels_first", padding="VALID")
+    self.conv1 = tf.keras.layers.Conv3D(64, (3,3,3), (2,1,1), data_format="channels_last", padding="VALID")
+    self.conv2 = tf.keras.layers.Conv3D(64, (3,3,3), (1,1,1), data_format="channels_last", padding="VALID")
+    self.conv3 = tf.keras.layers.Conv3D(64, (3,3,3), (2,1,1), data_format="channels_last", padding="VALID")
 
     self.bn1 = tf.keras.layers.BatchNormalization(trainable=True)
     self.bn2 = tf.keras.layers.BatchNormalization(trainable=True)
@@ -112,15 +112,22 @@ class ConvMiddleLayer(tf.keras.layers.Layer):
       returns:
         
     """
+    input = tf.transpose(input, [0, 2, 3, 4, 1])
+
     # Refer to the paper, section 3 for details 
-    out = tf.pad(input, [(0,0)]*2 + [(1,1)]*3)
+    out = tf.pad(input, [(0,0)] + [(1,1)]*3 + [(0,0)])
     out = tf.nn.relu(self.bn1(self.conv1(out)))
 
-    out = tf.pad(out, [(0,0)]*3 + [(1,1)]*2)
+    out = tf.pad(out, [(0,0)]*2 + [(1,1)]*2 + [(0, 0)])
     out = tf.nn.relu(self.bn2(self.conv2(out)))
 
-    out = tf.pad(out, [(0,0)]*2 + [(1,1)]*3)
+
+    out = tf.pad(out, [(0,0)] + [(1,1)]*3 + [(0, 0)])
     out = tf.nn.relu(self.bn3(self.conv3(out)))
+
+
+    print(self.out_shape)
+    
     return tf.reshape(out, self.out_shape)
 
 
@@ -169,14 +176,14 @@ class RPN(tf.keras.layers.Layer):
                                   kernel_size, 
                                   stride_size, 
                                   padding="SAME", 
-                                  data_format="channels_first")
+                                  data_format="channels_last")
 
   def deconv_layer(self, out_channels, kernel_size, stride_size):
     return tf.keras.layers.Conv2DTranspose(out_channels, 
                                            kernel_size, 
                                            stride_size, 
                                            padding="SAME", 
-                                           data_format="channels_first")
+                                           data_format="channels_last")
 
   def block_conv_op(self, block_id, input):
     i = 1
